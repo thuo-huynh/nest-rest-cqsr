@@ -8,7 +8,6 @@ import { DiscoveryService } from '@nestjs-plus/discovery';
 import { Inject, Injectable, Logger, OnModuleDestroy } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ModulesContainer } from '@nestjs/core';
-import { IEvent } from '@nestjs/cqrs';
 import { Interval } from '@nestjs/schedule';
 import { Message, MessageHandlerMetadata } from './message.interface';
 
