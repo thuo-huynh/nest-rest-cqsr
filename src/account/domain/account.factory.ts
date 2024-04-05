@@ -1,14 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { EventPublisher } from '@nestjs/cqrs';
 import { AccountProperties, CreateAccountOptions } from './account.type';
-import { IAccount } from './account.interface';
 import { Account } from './account';
 
 @Injectable()
 export class AccountFactory {
   @Inject(EventPublisher) private readonly eventPublisher: EventPublisher;
 
-  create(options: CreateAccountOptions): IAccount {
+  create(options: CreateAccountOptions): Account {
     return this.eventPublisher.mergeObjectContext(
       new Account({
         ...options,
@@ -22,7 +21,7 @@ export class AccountFactory {
     );
   }
 
-  reconstitute(properties: AccountProperties): IAccount {
+  reconstitute(properties: AccountProperties): Account {
     return this.eventPublisher.mergeObjectContext(new Account(properties));
   }
 }

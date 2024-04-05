@@ -7,7 +7,7 @@ import requestStorage from '@app/common/storages/request-storage';
 @Injectable()
 export class TaskPublisherService implements ITaskPublisher {
   constructor(
-    @Inject() private readonly sqsMessagePublisher: SQSPublisherService,
+    private readonly sqsMessagePublisher: SQSPublisherService,
   ) {}
   async publish(name: string, body: IEvent): Promise<void> {
     await this.sqsMessagePublisher.publish({

@@ -25,7 +25,6 @@
     "@aws-sdk/client-sqs": "^3.547.0",
     "@aws-sdk/s3-request-presigner": "^3.540.0",
     "@aws-sdk/util-endpoints": "^3.540.0",
-    "@nestjs-plus/discovery": "^2.0.2",
     "@nestjs/axios": "^3.0.2",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.1",
@@ -44,7 +43,7 @@
     "joi": "^17.12.3",
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.30.1",
-    "mysql": "^2.18.1",
+    "mysql": "npm:mysql2@^2.1.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "swagger-ui-express": "^5.0.0",
@@ -52,6 +51,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@golevelup/nestjs-discovery": "^4.0.0",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",

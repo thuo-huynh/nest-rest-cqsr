@@ -1,3 +1,7 @@
+import { FindAccountByIdResult } from '../application/query/find-account-by-id-result';
+import { FindAccountsQuery } from '../application/query/find-account.query';
+import { FindAccountsResult } from '../application/query/find-account-result';
+
 export interface IAccount {
   compareId: (id: string) => boolean;
   open: () => void;
@@ -14,4 +18,9 @@ export interface IAccountRepository {
   save: (account: IAccount | IAccount[]) => Promise<void>;
   findById: (id: string) => Promise<IAccount | null>;
   findByName: (name: string) => Promise<IAccount[]>;
+}
+
+export interface IAccountQuery {
+  findById: (id: string) => Promise<FindAccountByIdResult | null>;
+  find: (query: FindAccountsQuery) => Promise<FindAccountsResult>;
 }

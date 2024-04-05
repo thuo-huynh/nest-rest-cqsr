@@ -1,7 +1,7 @@
+import { EntityId } from '@app/module/database/database.service';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsAlphanumeric, Length } from 'class-validator';
 
-import { EntityId } from 'libs/DatabaseModule';
 
 export class WithdrawRequestParam {
   @IsAlphanumeric()
