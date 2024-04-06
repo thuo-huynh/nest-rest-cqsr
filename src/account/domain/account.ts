@@ -1,18 +1,18 @@
-import { AggregateRoot } from '@nestjs/cqrs';
-import { IAccount } from './account.interface';
-import { AccountProperties } from './account.type';
-import { AccountOpenedEvent } from './event/AccountOpenedEvent';
-import { PasswordUpdatedEvent } from './event/PasswordUpdatedEvent';
 import {
   InternalServerErrorException,
   UnprocessableEntityException,
 } from '@nestjs/common';
+import { AggregateRoot } from '@nestjs/cqrs';
+import { IAccount } from './account.interface';
 import { ErrorMessage } from './account.message';
-import { WithdrawnEvent } from './event/WithdrawnEvent';
-import { DepositedEvent } from './event/DepositedEvent';
+import { AccountProperties } from './account.type';
 import { AccountClosedEvent } from './event/AccountClosedEvent';
+import { AccountOpenedEvent } from './event/AccountOpenedEvent';
+import { DepositedEvent } from './event/DepositedEvent';
+import { PasswordUpdatedEvent } from './event/PasswordUpdatedEvent';
+import { WithdrawnEvent } from './event/WithdrawnEvent';
 
-export class Account extends AggregateRoot implements IAccount {
+export class AccountAggregate extends AggregateRoot implements IAccount {
   private readonly id: string;
   private readonly name: string;
   private readonly email: string;

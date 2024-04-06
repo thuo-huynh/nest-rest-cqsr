@@ -3,7 +3,7 @@ import { EntityIdTransformerService } from '@app/module/database/transformer.ser
 import { Injectable } from '@nestjs/common';
 import { FindAccountByIdResult } from 'src/account/application/query/find-account-by-id-result';
 import { FindAccountsQuery } from 'src/account/application/query/find-account.query';
-import { FindAccountsResult } from 'src/account/application/query/find-account-result';
+import { FindAccountsResult } from 'src/account/application/query/result/find-account-result';
 import { IAccountQuery } from 'src/account/domain/account.interface';
 import { AccountEntity } from '../entity/AccountEntity';
 

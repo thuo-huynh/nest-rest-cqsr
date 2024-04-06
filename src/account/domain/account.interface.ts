@@ -1,6 +1,6 @@
-import { FindAccountByIdResult } from '../application/query/find-account-by-id-result';
+import { FindAccountByIdResult } from '../application/query/result/find-account-by-id-result';
 import { FindAccountsQuery } from '../application/query/find-account.query';
-import { FindAccountsResult } from '../application/query/find-account-result';
+import { FindAccountsResult } from '../application/query/result/find-account-result';
 
 export interface IAccount {
   compareId: (id: string) => boolean;
