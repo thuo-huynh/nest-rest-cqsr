@@ -3,12 +3,12 @@ import {
   writeConnection,
 } from '@app/module/database/database.service';
 import { EntityIdTransformerService } from '@app/module/database/transformer.service';
-import { Account } from 'src/account/domain/account';
+import { Injectable } from '@nestjs/common';
+import { AccountAggregate } from 'src/account/domain/account';
 import { AccountFactory } from 'src/account/domain/account.factory';
 import { IAccountRepository } from 'src/account/domain/account.interface';
 import { AccountProperties } from 'src/account/domain/account.type';
 import { AccountEntity } from '../entity/AccountEntity';
-import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AccountRepository implements IAccountRepository {
@@ -21,27 +21,27 @@ export class AccountRepository implements IAccountRepository {
     return new EntityId().toString();
   }
 
-  async save(data: Account | Account[]) {
+  async save(data: AccountAggregate | AccountAggregate[]) {
     const models = Array.isArray(data) ? data : [data];
     const entities = models.map((model) => this.modelToEntity(model));
     await writeConnection.manager.getRepository(AccountEntity).save(entities);
   }
 
-  async findById(id: string): Promise<Account | null> {
+  async findById(id: string): Promise<AccountAggregate | null> {
     const entity = await writeConnection.manager
       .getRepository(AccountEntity)
       .findOneBy({ id: this.entityIdTransformer.to(id) });
     return entity ? this.entityToModel(entity) : null;
   }
 
-  async findByName(name: string): Promise<Account[]> {
+  async findByName(name: string): Promise<AccountAggregate[]> {
     const entities = await writeConnection.manager
       .getRepository(AccountEntity)
       .findBy({ name });
     return entities.map((entity) => this.entityToModel(entity));
   }
 
-  private modelToEntity(model: Account): AccountEntity {
+  private modelToEntity(model: AccountAggregate): AccountEntity {
     const properties = JSON.parse(JSON.stringify(model)) as AccountProperties;
     console.log(
       '🚀 ~ AccountRepository ~ modelToEntity ~ this.entityIdTransformer.to(properties.id):',
@@ -55,7 +55,7 @@ export class AccountRepository implements IAccountRepository {
     };
   }
 
-  private entityToModel(entity: AccountEntity): Account {
+  private entityToModel(entity: AccountEntity): AccountAggregate {
     return this.accountFactory.reconstitute({
       ...entity,
       id: this.entityIdTransformer.from(entity.id),

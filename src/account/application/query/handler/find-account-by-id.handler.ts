@@ -22,5 +22,14 @@ export class FindAccountByIdHandler
 
     if (dataKeys.length < resultKeys.length)
       throw new InternalServerErrorException();
+
+    if (resultKeys.find((resultKey) => !dataKeys.includes(resultKey)))
+      throw new InternalServerErrorException();
+
+    dataKeys
+      .filter((dataKey) => !resultKeys.includes(dataKey))
+      .forEach((dataKey) => delete data[dataKey]);
+
+    return data;
   }
 }

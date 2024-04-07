@@ -1,11 +1,11 @@
 import { readConnection } from '@app/module/database/database.service';
 import { EntityIdTransformerService } from '@app/module/database/transformer.service';
 import { Injectable } from '@nestjs/common';
-import { FindAccountByIdResult } from 'src/account/application/query/find-account-by-id-result';
 import { FindAccountsQuery } from 'src/account/application/query/find-account.query';
 import { FindAccountsResult } from 'src/account/application/query/result/find-account-result';
 import { IAccountQuery } from 'src/account/domain/account.interface';
 import { AccountEntity } from '../entity/AccountEntity';
+import { FindAccountByIdResult } from 'src/account/application/query/result/find-account-by-id-result';
 
 @Injectable()
 export class AccountQuery implements IAccountQuery {
