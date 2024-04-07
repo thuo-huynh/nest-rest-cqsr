@@ -1,15 +1,15 @@
+import { RequestStorageMiddleware } from '@app/common/middlewares/request-storage.middleware';
 import { ConfigModule } from '@app/module/configs/config.module';
 import { DatabaseModule } from '@app/module/database/database.module';
 import { MessageModule } from '@app/module/message/message.module';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AccountModule } from './account/account.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { NotificationModule } from './notification/notification.module';
-import { ScheduleModule } from '@nestjs/schedule';
-import { RequestStorageMiddleware } from '@app/common/middlewares/request-storage.middleware';
 
 @Module({
   imports: [

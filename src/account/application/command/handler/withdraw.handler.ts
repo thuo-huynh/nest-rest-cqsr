@@ -8,7 +8,6 @@ import { WithdrawCommand } from '../withdraw.command';
 export class WithdrawHandler implements ICommandHandler<WithdrawCommand, void> {
   constructor(private readonly accountRepository: AccountRepository) {}
 
-  //   @Transactional()
   async execute(command: WithdrawCommand): Promise<void> {
     const account = await this.accountRepository.findById(command.accountId);
     if (!account)

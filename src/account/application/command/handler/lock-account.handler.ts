@@ -10,7 +10,6 @@ export class LockAccountHandler
 {
   constructor(private readonly accountRepository: AccountRepository) {}
 
-  //   @Transactional()
   async execute(command: LockAccountCommand): Promise<void> {
     const account = await this.accountRepository.findById(command.accountId);
     if (!account)
