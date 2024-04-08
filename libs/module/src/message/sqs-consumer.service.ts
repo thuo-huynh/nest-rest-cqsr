@@ -105,6 +105,10 @@ export class SQSConsumerService implements OnModuleDestroy {
         }),
       )
     ).Messages;
+    console.log(
+      '🚀 ~ SQSConsumerService ~ handleMessage ~ response:',
+      response,
+    );
     if (!response || !response[0] || !response[0].Body) return;
 
     const message = (
@@ -114,6 +118,7 @@ export class SQSConsumerService implements OnModuleDestroy {
           )
         : JSON.parse(response[0].Body)
     ) as Message;
+    console.log('🚀 ~ SQSConsumerService ~ handleMessage ~ message:', message);
     RequestStorage.setRequestId(message.requestId);
 
     const handler = (

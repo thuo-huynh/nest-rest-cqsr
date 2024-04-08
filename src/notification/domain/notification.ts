@@ -1,13 +1,5 @@
 import { AggregateRoot } from '@nestjs/cqrs';
-
-export type NotificationProperties = Readonly<{
-  id: string;
-  accountId: string;
-  to: string;
-  subject: string;
-  content: string;
-  createdAt: Date;
-}>;
+import { NotificationProperties } from './notification.type';
 
 export class NotificationAggregate extends AggregateRoot {
   private readonly id: string;

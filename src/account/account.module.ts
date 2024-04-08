@@ -1,6 +1,6 @@
 import { PasswordModule } from '@app/module/password/password.module';
 import { PasswordGeneratorService } from '@app/module/password/password.service';
-import { Module, Provider } from '@nestjs/common';
+import { Inject, Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CloseAccountHandler } from './application/command/handler/close-account.handler';
 import { DepositHandler } from './application/command/handler/deposit.handler';
@@ -17,12 +17,21 @@ import { AccountQuery } from './infrastructure/query/account.query';
 import { AccountRepository } from './infrastructure/repository/account.repository';
 import { AccountController } from './interface/account.troller';
 
+import { EntityIdTransformer } from '@app/module/database/database.interface';
+import { writeConnection } from '@app/module/database/database.service';
+import { EntityIdTransformerService } from '@app/module/database/transformer.service';
+import { ITaskPublisher } from '@app/module/message/message.interface';
+import { TaskPublisherService } from '@app/module/message/task-publisher.service';
+import { Cron, CronExpression } from '@nestjs/schedule';
+import { addYears } from 'date-fns';
+import { LessThan } from 'typeorm';
+import { LockAccountCommand } from './application/command/lock-account.command';
 import { AccountClosedEventHandler } from './application/event/handler/account-closed.handler';
 import { AccountOpenedEventHandler } from './application/event/handler/account-opened.handler';
 import { DepositedEventHandler } from './application/event/handler/deposit.handler';
 import { PasswordUpdatedEventHandler } from './application/event/handler/password-update.handler';
 import { WithdrawnEventHandler } from './application/event/handler/withdrawn.handler';
-
+import { AccountEntity } from './infrastructure/entity/AccountEntity';
 const infrastructure: Provider[] = [AccountRepository, AccountQuery];
 
 const application = [
@@ -53,4 +62,24 @@ const domain = [AccountFactory, AccountDomainService, PasswordGeneratorService];
   controllers: [AccountController],
   providers: [...domain, ...infrastructure, ...application],
 })
-export class AccountModule {}
+export class AccountModule {
+  constructor(
+    @Inject(TaskPublisherService)
+    private readonly taskPublisher: ITaskPublisher,
+    @Inject(EntityIdTransformerService)
+    private readonly entityIdTransformer: EntityIdTransformer,
+  ) {}
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  async lockUnusedAccount(): Promise<void> {
+    (
+      await writeConnection.manager
+        .getRepository(AccountEntity)
+        .findBy({ updatedAt: LessThan(addYears(new Date(), -1)) })
+    ).forEach((account) =>
+      this.taskPublisher.publish(
+        LockAccountCommand.name,
+        new LockAccountCommand(this.entityIdTransformer.from(account.id)),
+      ),
+    );
+  }
+}

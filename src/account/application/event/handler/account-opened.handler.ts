@@ -14,7 +14,8 @@ export class AccountOpenedEventHandler
     @Inject(IntegrationEventPublisherService)
     private readonly integrationEventPublisher: IIntegrationEventPublisher,
   ) {}
-  async handle(event: AccountOpenedEvent) {
+  async handle(event: AccountOpenedEvent): Promise<void> {
+    console.log('🚀 ~ handle ~ event:', event);
     await this.integrationEventPublisher.publish(
       Topic.ACCOUNT_OPENED,
       new AccountOpened(event.accountId, event.email),

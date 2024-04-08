@@ -1,6 +1,6 @@
 import { NotificationAggregate } from './notification';
 
-export interface NotificationRepository {
+export interface INotificationRepository {
   newId: () => string;
   save: (notification: NotificationAggregate) => Promise<void>;
 }

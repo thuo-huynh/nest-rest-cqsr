@@ -3,21 +3,21 @@ import { Topic } from '@app/module/message/message.enum';
 import { IIntegrationEventPublisher } from '@app/module/message/message.interface';
 import { Inject } from '@nestjs/common';
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
-import { AccountOpenedEvent } from 'src/account/domain/event/AccountOpenedEvent';
-import { AccountOpened } from '../account-opened.event';
+import { AccountClosedEvent } from 'src/account/domain/event/AccountClosedEvent';
+import { AccountClosed } from '../account-closed.event';
 
-@EventsHandler(AccountOpenedEvent)
+@EventsHandler(AccountClosedEvent)
 export class AccountClosedEventHandler
-  implements IEventHandler<AccountOpenedEvent>
+  implements IEventHandler<AccountClosedEvent>
 {
   constructor(
     @Inject(IntegrationEventPublisherService)
     private readonly integrationEventPublisher: IIntegrationEventPublisher,
   ) {}
-  async handle(event: AccountOpenedEvent) {
+  async handle(event: AccountClosedEvent) {
     await this.integrationEventPublisher.publish(
-      Topic.ACCOUNT_OPENED,
-      new AccountOpened(event.accountId, event.email),
+      Topic.ACCOUNT_CLOSED,
+      new AccountClosed(event.accountId, event.email),
     );
   }
 }

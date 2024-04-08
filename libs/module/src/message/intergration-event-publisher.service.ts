@@ -12,6 +12,7 @@ export class IntegrationEventPublisherService
   constructor(private readonly snsMessagePublisher: SNSPublisherService) {}
 
   async publish(name: Topic, body: IEvent): Promise<void> {
+    console.log('🚀 ~ publish ~ name:', name);
     await this.snsMessagePublisher.publish(name, {
       name,
       body,
